@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Camera extends StatelessWidget{
+class Camera extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-
-   );
+    return Scaffold();
   }
-
 }

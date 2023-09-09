@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:whatsupflutter/home/contacts.dart';
 import 'package:whatsupflutter/home/tabs/calls.dart';
-import 'package:whatsupflutter/home/tabs/chats.dart';
+import 'package:whatsupflutter/home/tabs/chat/chats.dart';
 import 'package:whatsupflutter/home/tabs/status.dart';
 
 class home extends StatefulWidget {
+  var loginUserName;
+
+  home({Key? key, required this.loginUserName}) : super(key: key);
+
   @override
-  home_state createState() => home_state();
+  State<home> createState() => home_state();
 }
 
 class home_state extends State<home> {
@@ -58,7 +63,7 @@ class home_state extends State<home> {
 
     return DefaultTabController(
       length: _tabs.length,
-      initialIndex: 0,
+      initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           title: Text("WhatsApp"),
@@ -68,24 +73,40 @@ class home_state extends State<home> {
               icon: Icon(Icons.search),
               onPressed: () {},
             ),
-            PopupMenuButton(itemBuilder: (BuildContext context){
+            PopupMenuButton(itemBuilder: (BuildContext context) {
               return [
-              PopupMenuItem(child: Text("New Group")),
-              PopupMenuItem(child: Text("New broadcast")),
-              PopupMenuItem(child: Text("Linked devices")),
-              PopupMenuItem(child: Text("Starred messages")),
-              PopupMenuItem(child: Text("Payments")),
-              PopupMenuItem(child: Text("Settings")),
+                PopupMenuItem(child: Text("New Group")),
+                PopupMenuItem(child: Text("New broadcast")),
+                PopupMenuItem(child: Text("Linked devices")),
+                PopupMenuItem(child: Text("Starred messages")),
+                PopupMenuItem(child: Text("Payments")),
+                PopupMenuItem(child: Text("Settings")),
               ];
-
             })
           ],
           bottom: TabBar(isScrollable: true, tabs: _tabs),
         ),
         body: TabBarView(
-          children: [Container(), Chats(), Status(), Calls()],
+          children: [
+            Container(),
+            Chats(loginUserName: widget.loginUserName),
+            Status(),
+            Calls()
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            navigationToContacts(context);
+          },
+          backgroundColor: Colors.teal,
+          child: const Icon(Icons.message),
         ),
       ),
     );
+  }
+
+  void navigationToContacts(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => Contacts()));
   }
 }
